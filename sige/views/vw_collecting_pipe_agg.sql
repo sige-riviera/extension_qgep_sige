@@ -213,7 +213,7 @@ CREATE OR REPLACE VIEW qgep_sige.vw_collecting_pipe_agg
             WHEN vw_edit_collecting_pipe.dimension IS NULL THEN 1
             ELSE 0
         END::numeric::double precision) AS width_no_data,
-    st_collect(vw_edit_collecting_pipe.progression_geometry) AS collecting_pipe_geom,
+    st_linemerge(st_multi(st_collect(vw_edit_collecting_pipe.progression_geometry))) AS collecting_pipe_geom,
     ( SELECT sum(subquery.planned_cleaned_length_this_year) AS planned_cleaned_length_this_year
            FROM ( SELECT batch_cleaning.main_pipe_code,
                         CASE
