@@ -1,4 +1,4 @@
-i-- View: qgep_sige.vw_pumping_reach
+-- View: qgep_sige.vw_pumping_reach
 
 -- DROP VIEW qgep_sige.vw_pumping_reach;
 
