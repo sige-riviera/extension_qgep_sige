@@ -6,7 +6,7 @@ CREATE OR REPLACE VIEW qgep_sige.vw_pumping_reach
  AS
  SELECT DISTINCT ON (re.obj_id) re.obj_id,
     re.progression_geometry,
-    re.sige_collecting_pipe_id,
+    re.usr_collecting_pipe_id,
     ch.function_hierarchic,
     ws.fk_owner,
     rp_from.obj_id AS rp_from_obj_id,
