@@ -4,8 +4,8 @@
 
 CREATE OR REPLACE VIEW qgep_sige.vw_collecting_pipe_agg
  AS
- SELECT row_number() OVER (ORDER BY vw_edit_collecting_pipe.sige_collecting_pipe_id) AS row_number,
-    vw_edit_collecting_pipe.sige_collecting_pipe_id,
+ SELECT row_number() OVER (ORDER BY vw_edit_collecting_pipe.usr_collecting_pipe_id) AS row_number,
+    vw_edit_collecting_pipe.usr_collecting_pipe_id,
     count(vw_edit_collecting_pipe.obj_id) AS number_of_reaches,
     sum(COALESCE(vw_edit_collecting_pipe.length_effective::double precision, st_length(vw_edit_collecting_pipe.progression_geometry))) AS collecting_pipe_length,
     sum(COALESCE(vw_edit_collecting_pipe.length_effective::double precision, st_length(vw_edit_collecting_pipe.progression_geometry)) *
@@ -221,8 +221,8 @@ CREATE OR REPLACE VIEW qgep_sige.vw_collecting_pipe_agg
                             ELSE 0::numeric
                         END AS planned_cleaned_length_this_year
                    FROM qgep_sige.batch_cleaning
-                     LEFT JOIN qgep_sige.vw_batch_cleaning_agg ON vw_batch_cleaning_agg.sige_batch_cleaning_id = batch_cleaning.code) subquery
-          WHERE subquery.main_pipe_code = vw_edit_collecting_pipe.sige_collecting_pipe_id
+                     LEFT JOIN qgep_sige.vw_batch_cleaning_agg ON vw_batch_cleaning_agg.usr_batch_cleaning_id = batch_cleaning.code) subquery
+          WHERE subquery.main_pipe_code = vw_edit_collecting_pipe.usr_collecting_pipe_id
           GROUP BY subquery.main_pipe_code) AS planned_cleaned_length_this_year,
     ( SELECT sum(subquery.planned_inspected_length_this_year) AS planned_inspected_length_this_year
            FROM ( SELECT batch_inspection.main_pipe_code,
@@ -231,12 +231,12 @@ CREATE OR REPLACE VIEW qgep_sige.vw_collecting_pipe_agg
                             ELSE 0::numeric
                         END AS planned_inspected_length_this_year
                    FROM qgep_sige.batch_inspection
-                     LEFT JOIN qgep_sige.vw_batch_inspection_agg ON vw_batch_inspection_agg.sige_batch_inspection_id = batch_inspection.code) subquery
-          WHERE subquery.main_pipe_code = vw_edit_collecting_pipe.sige_collecting_pipe_id
+                     LEFT JOIN qgep_sige.vw_batch_inspection_agg ON vw_batch_inspection_agg.usr_batch_inspection_id = batch_inspection.code) subquery
+          WHERE subquery.main_pipe_code = vw_edit_collecting_pipe.usr_collecting_pipe_id
           GROUP BY subquery.main_pipe_code) AS planned_inspected_length_this_year
    FROM qgep_sige.vw_edit_collecting_pipe
-  WHERE vw_edit_collecting_pipe.sige_collecting_pipe_id IS NOT NULL
-  GROUP BY vw_edit_collecting_pipe.sige_collecting_pipe_id;
+  WHERE vw_edit_collecting_pipe.usr_collecting_pipe_id IS NOT NULL
+  GROUP BY vw_edit_collecting_pipe.usr_collecting_pipe_id;
 
 ALTER TABLE qgep_sige.vw_collecting_pipe_agg
     OWNER TO sige;

@@ -13,9 +13,9 @@ CREATE OR REPLACE VIEW qgep_sige.vw_edit_collecting_pipe
         END AS dimension,
     re.clear_height,
     pp.height_width_ratio,
-    re.sige_collecting_pipe_id,
-    re.sige_batch_cleaning_id,
-    re.sige_batch_inspection_id,
+    re.usr_collecting_pipe_id,
+    re.usr_batch_cleaning_id,
+    re.usr_batch_inspection_id,
     re.length_effective,
         CASE
             WHEN rp_from.level > 0::numeric AND rp_to.level > 0::numeric THEN round((rp_from.level - rp_to.level) / re.length_effective * 1000::numeric, 1)
@@ -49,25 +49,25 @@ ALTER TABLE qgep_sige.vw_edit_collecting_pipe
 CREATE RULE vw_edit_main_pipe_name_on_update AS
     ON UPDATE TO qgep_sige.vw_edit_collecting_pipe
     DO INSTEAD
-(UPDATE qgep_od.reach SET sige_collecting_pipe_id = new.sige_collecting_pipe_id
+(UPDATE qgep_od.reach SET usr_collecting_pipe_id = new.usr_collecting_pipe_id
   WHERE ((reach.obj_id)::text = (old.obj_id)::text));
 
--- Rule: vw_edit_sige_batch_cleaning_id_on_update ON qgep_sige.vw_edit_collecting_pipe
+-- Rule: vw_edit_batch_cleaning_id_on_update ON qgep_sige.vw_edit_collecting_pipe
 
--- DROP Rule IF EXISTS vw_edit_sige_batch_cleaning_id_on_update ON qgep_sige.vw_edit_collecting_pipe;
+-- DROP Rule IF EXISTS vw_edit_batch_cleaning_id_on_update ON qgep_sige.vw_edit_collecting_pipe;
 
-CREATE RULE vw_edit_sige_batch_cleaning_id_on_update AS
+CREATE RULE vw_edit_batch_cleaning_id_on_update AS
     ON UPDATE TO qgep_sige.vw_edit_collecting_pipe
     DO INSTEAD
-(UPDATE qgep_od.reach SET sige_batch_cleaning_id = new.sige_batch_cleaning_id
+(UPDATE qgep_od.reach SET usr_batch_cleaning_id = new.usr_batch_cleaning_id
   WHERE ((reach.obj_id)::text = (old.obj_id)::text));
 
--- Rule: vw_edit_sige_batch_inspection_id_on_update ON qgep_sige.vw_edit_collecting_pipe
+-- Rule: vw_edit_batch_inspection_id_on_update ON qgep_sige.vw_edit_collecting_pipe
 
--- DROP Rule IF EXISTS vw_edit_sige_batch_inspection_id_on_update ON qgep_sige.vw_edit_collecting_pipe;
+-- DROP Rule IF EXISTS vw_edit_batch_inspection_id_on_update ON qgep_sige.vw_edit_collecting_pipe;
 
-CREATE RULE vw_edit_sige_batch_inspection_id_on_update AS
+CREATE RULE vw_edit_batch_inspection_id_on_update AS
     ON UPDATE TO qgep_sige.vw_edit_collecting_pipe
     DO INSTEAD
-(UPDATE qgep_od.reach SET sige_batch_inspection_id = new.sige_batch_inspection_id
+(UPDATE qgep_od.reach SET usr_batch_inspection_id = new.usr_batch_inspection_id
   WHERE ((reach.obj_id)::text = (old.obj_id)::text));

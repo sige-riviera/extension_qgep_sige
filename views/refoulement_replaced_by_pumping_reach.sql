@@ -33,5 +33,5 @@ ALTER TABLE qgep_sige.refoulement_replaced_by_pumping_reach
 CREATE RULE refoulement_on_update AS
     ON UPDATE TO qgep_sige.refoulement_replaced_by_pumping_reach
     DO INSTEAD
-(UPDATE qgep_od.reach SET sige_collecting_pipe_id = new.sige_collecting_pipe_id
+(UPDATE qgep_od.reach SET usr_collecting_pipe_id = new.usr_collecting_pipe_id
   WHERE ((reach.obj_id)::text = (old.obj_id)::text));

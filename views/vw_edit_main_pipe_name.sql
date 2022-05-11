@@ -6,9 +6,9 @@ CREATE OR REPLACE VIEW qgep_sige.vw_edit_main_pipe_name
  AS
  SELECT DISTINCT ON (re.obj_id) re.obj_id,
     re.progression_geometry,
-    re.sige_collecting_pipe_id,
-    re.sige_batch_cleaning_id,
-    re.sige_batch_inspection_id,
+    re.usr_collecting_pipe_id,
+    re.usr_batch_cleaning_id,
+    re.usr_batch_inspection_id,
     ch.function_hierarchic,
     ws.fk_owner,
     rp_from.obj_id AS rp_from_obj_id,
@@ -35,25 +35,25 @@ ALTER TABLE qgep_sige.vw_edit_main_pipe_name
 CREATE RULE vw_edit_main_pipe_name_on_update AS
     ON UPDATE TO qgep_sige.vw_edit_main_pipe_name
     DO INSTEAD
-(UPDATE qgep_od.reach SET sige_collecting_pipe_id = new.sige_collecting_pipe_id
+(UPDATE qgep_od.reach SET usr_collecting_pipe_id = new.usr_collecting_pipe_id
   WHERE ((reach.obj_id)::text = (old.obj_id)::text));
 
--- Rule: vw_edit_sige_batch_cleaning_id_on_update ON qgep_sige.vw_edit_main_pipe_name
+-- Rule: vw_edit_batch_cleaning_id_on_update ON qgep_sige.vw_edit_main_pipe_name
 
--- DROP Rule IF EXISTS vw_edit_sige_batch_cleaning_id_on_update ON qgep_sige.vw_edit_main_pipe_name;
+-- DROP Rule IF EXISTS vw_edit_batch_cleaning_id_on_update ON qgep_sige.vw_edit_main_pipe_name;
 
-CREATE RULE vw_edit_sige_batch_cleaning_id_on_update AS
+CREATE RULE vw_edit_batch_cleaning_id_on_update AS
     ON UPDATE TO qgep_sige.vw_edit_main_pipe_name
     DO INSTEAD
-(UPDATE qgep_od.reach SET sige_batch_cleaning_id = new.sige_batch_cleaning_id
+(UPDATE qgep_od.reach SET usr_batch_cleaning_id = new.usr_batch_cleaning_id
   WHERE ((reach.obj_id)::text = (old.obj_id)::text));
 
--- Rule: vw_edit_sige_batch_inspection_id_on_update ON qgep_sige.vw_edit_main_pipe_name
+-- Rule: vw_edit_batch_inspection_id_on_update ON qgep_sige.vw_edit_main_pipe_name
 
--- DROP Rule IF EXISTS vw_edit_sige_batch_inspection_id_on_update ON qgep_sige.vw_edit_main_pipe_name;
+-- DROP Rule IF EXISTS vw_edit_batch_inspection_id_on_update ON qgep_sige.vw_edit_main_pipe_name;
 
-CREATE RULE vw_edit_sige_batch_inspection_id_on_update AS
+CREATE RULE vw_edit_batch_inspection_id_on_update AS
     ON UPDATE TO qgep_sige.vw_edit_main_pipe_name
     DO INSTEAD
-(UPDATE qgep_od.reach SET sige_batch_inspection_id = new.sige_batch_inspection_id
+(UPDATE qgep_od.reach SET usr_batch_inspection_id = new.usr_batch_inspection_id
   WHERE ((reach.obj_id)::text = (old.obj_id)::text));
